@@ -3,8 +3,7 @@ class ProductSearch < FortyFacets::FacetSearch
 
   text  :name
   text  :sku
-
   facet :gender, name: 'Gender', order: :id
-  facet :activities, name: "Activities", order: :name
+  facet :activities, name: "Activities", order: :id
 
 end

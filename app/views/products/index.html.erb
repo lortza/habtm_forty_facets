@@ -13,7 +13,7 @@ the Shoppers Controller.
     <ul class="selected">
       <% [:gender, :activities].each do |filter_name| %>
         <% @search.filter(filter_name).selected.each do |entity| %>
-          <li><%= entity.name.capitalize %> <%= link_to "X", @search.filter(filter_name).remove(entity).path %></li>
+          <li>id <%= entity.id %> <%= entity.name.capitalize %> <%= link_to "X", @search.filter(filter_name).remove(entity).path %></li>
         <% end %>
       <% end %>
     </ul>
@@ -31,7 +31,7 @@ the Shoppers Controller.
       <h2><%= @search.filter(filter_name).name %></h2>
       <ul class="selectable">
         <% @search.filter(filter_name).facet.reject(&:selected).each do |facet_value| %>
-          <li><%= link_to facet_value.entity.name, @search.filter(filter_name).add(facet_value.entity).path %> <span class="count">(<%= facet_value.count %>)</span></li>
+          <li>id <%= facet_value.entity.id %> <%= link_to facet_value.entity.name, @search.filter(filter_name).add(facet_value.entity).path %> <span class="count">(<%= facet_value.count %>)</span></li>
         <% end %>
       </ul>
     <% end %>
@@ -41,7 +41,7 @@ the Shoppers Controller.
   <div class="main-content">
     <ul>
       <% @products.each do |product| %>
-      <li><%= product.name %></li>
+      <li><%= product.name %> (<%= product.gender.name %>, <%= product.activity_ids %>)</li>
       <% end %>
     </ul>
 

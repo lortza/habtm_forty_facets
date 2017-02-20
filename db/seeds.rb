@@ -20,10 +20,14 @@ Product.create!([
   {name: "women's sandal", gender_id: @women.id},
   {name: "men's sandal", gender_id: @men.id},
   {name: 'bikini', gender_id: @women.id},
+  {name: 'swimming trunks', gender_id: @men.id},
   {name: 'sunscreen', gender_id: @unisex.id},
   {name: "women's boot", gender_id: @women.id},
   {name: "men's boot", gender_id: @men.id},
-  {name: 'tent', gender_id: @unisex.id}
+  {name: 'tent', gender_id: @unisex.id},
+  {name: 'bear bag', gender_id: @unisex.id},
+  {name: 'life jacket', gender_id: @unisex.id},
+  {name: 'yoga mat', gender_id: @unisex.id}
 ])
 
 Activity.create!([
@@ -37,10 +41,14 @@ Activity.create!([
 w_sandal = Product.find_by_name("women's sandal")
 m_sandal = Product.find_by_name("men's sandal")
 bikini = Product.find_by_name('bikini')
+swimming_trunks = Product.find_by_name('swimming trunks')
 sunscreen = Product.find_by_name('sunscreen')
 w_boot = Product.find_by_name("women's boot")
 m_boot = Product.find_by_name("men's boot")
 tent = Product.find_by_name('tent')
+bear_bag = Product.find_by_name('bear bag')
+life_jacket = Product.find_by_name('life jacket')
+yoga_mat = Product.find_by_name('yoga mat')
 
 swimming = Activity.find_by_name('swimming')
 boating = Activity.find_by_name('boating')
@@ -48,7 +56,8 @@ hiking = Activity.find_by_name('hiking')
 yoga = Activity.find_by_name('yoga')
 camping = Activity.find_by_name('camping')
 
-swimming.products << [w_sandal, m_sandal, bikini, sunscreen]
-boating.products << [w_sandal, m_sandal, bikini, sunscreen]
+swimming.products << [w_sandal, m_sandal, bikini, sunscreen, swimming_trunks]
+boating.products << [w_sandal, m_sandal, sunscreen, life_jacket]
 hiking.products << [sunscreen, w_boot, m_boot]
-camping.products << [tent, w_boot, m_boot]
+camping.products << [tent, w_boot, m_boot, bear_bag]
+yoga.products << yoga_mat
