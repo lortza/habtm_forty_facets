@@ -1,0 +1,51 @@
+<!--
+This is the default layout for all views that show product
+tiles and products. Methods are assigned to this layout in
+the Shoppers Controller.
+-->
+
+
+<div class="container">
+  <div class="sidebar">
+
+    <h1>Filter By</h1>
+    <p><%= link_to 'Reset Filter', '?' %></p>
+    <ul class="selected">
+      <% [:gender, :activities].each do |filter_name| %>
+        <% @search.filter(filter_name).selected.each do |entity| %>
+          <li><%= entity.name.capitalize %> <%= link_to "X", @search.filter(filter_name).remove(entity).path %></li>
+        <% end %>
+      <% end %>
+    </ul>
+
+    <h2>Keyword</h2>
+    <div class="search">
+      <%= form_tag products_path, :method => 'get' do %>
+        <%= text_field_tag 'search[name]', @search.filter(:name).value,placeholder: "Search" %>
+        <%#= submit_tag "", :name => nil %>
+      <% end %><!-- form_tag -->
+    </div><!-- search -->
+    <p><%= link_to "Clear Results", products_path %></p>
+
+    <% [:gender, :activities].each do |filter_name| %>
+      <h2><%= @search.filter(filter_name).name %></h2>
+      <ul class="selectable">
+        <% @search.filter(filter_name).facet.reject(&:selected).each do |facet_value| %>
+          <li><%= link_to facet_value.entity.name, @search.filter(filter_name).add(facet_value.entity).path %> <span class="count">(<%= facet_value.count %>)</span></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div><!--sidebar -->
+
+
+  <div class="main-content">
+    <ul>
+      <% @products.each do |product| %>
+      <li><%= product.name %></li>
+      <% end %>
+    </ul>
+
+  </div> <!-- main-content -->
+
+</div><!-- container -->
+
