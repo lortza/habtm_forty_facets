@@ -2,8 +2,14 @@ class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   def index
-    @search = ProductSearch.new(params)
-    @products = @search.result
+    @products = Product.all
+  end
+
+  # GET /products/search
+  def search
+    @products = Product.search(params[:q]).records
+
+    render action: "index"
   end
 
   # GET /products/1

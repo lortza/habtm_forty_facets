@@ -1,49 +1,51 @@
-<!--
-This is the default layout for all views that show product
-tiles and products. Methods are assigned to this layout in
-the Shoppers Controller.
--->
+<p id="notice"><%= notice %></p>
 
+<h1>Listing Products</h1>
+<p><%= link_to 'New Article', new_product_path %>  <%= link_to 'All Articles', products_path if params[:q] %></p>
+<hr>
 
 <div class="container">
   <div class="sidebar">
 
-    <h1>Filter By</h1>
-    <p><%= link_to 'Reset Filter', '?' %></p>
-    <ul class="selected">
-      <% [:gender, :activities].each do |filter_name| %>
-        <% @search.filter(filter_name).selected.each do |entity| %>
-          <li>id <%= entity.id %> <%= entity.name.capitalize %> <%= link_to "X", @search.filter(filter_name).remove(entity).path %></li>
-        <% end %>
-      <% end %>
-    </ul>
-
-    <h2>Keyword</h2>
-    <div class="search">
-      <%= form_tag products_path, :method => 'get' do %>
-        <%= text_field_tag 'search[name]', @search.filter(:name).value,placeholder: "Search" %>
-        <%#= submit_tag "", :name => nil %>
-      <% end %><!-- form_tag -->
-    </div><!-- search -->
-    <p><%= link_to "Clear Results", products_path %></p>
-
-    <% [:gender, :activities].each do |filter_name| %>
-      <h2><%= @search.filter(filter_name).name %></h2>
-      <ul class="selectable">
-        <% @search.filter(filter_name).facet.reject(&:selected).each do |facet_value| %>
-          <li>id <%= facet_value.entity.id %> <%= link_to facet_value.entity.name, @search.filter(filter_name).add(facet_value.entity).path %> <span class="count">(<%= facet_value.count %>)</span></li>
-        <% end %>
-      </ul>
+    <h3>Filter By</h3>
+    <%= form_tag search_products_path, method: 'get' do %>
+      <%= label_tag :query %>
+      <%= text_field_tag :q, params[:q] %>
+      <%= submit_tag :search %>
     <% end %>
   </div><!--sidebar -->
 
 
   <div class="main-content">
-    <ul>
-      <% @products.each do |product| %>
-      <li><%= product.name %> (<%= product.gender.name %>, <%= product.activity_ids %>)</li>
-      <% end %>
-    </ul>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Activities</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @products.each do |product| %>
+          <tr>
+            <td><%= product.name %></td>
+            <td><%= product.gender.name %></td>
+            <td>
+              <ul>
+                <% product.activities.each do |activity| %>
+                  <li><%= activity.name %></li>
+                <% end %>
+              </ul>
+            </td>
+            <td><%= link_to 'Show', product %></td>
+            <td><%= link_to 'Edit', edit_product_path(product) %></td>
+            <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
   </div> <!-- main-content -->
 

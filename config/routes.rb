@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
   root 'products#index'
-  resources :products
+  resources :products do
+    collection { get :search }
+  end
 
   resources :activities
 
