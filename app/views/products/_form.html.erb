@@ -16,8 +16,12 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
+    <%= f.label :brand_id %><br>
+    <%= f.collection_select :brand_id, Brand.order('id'), :id, :name %>
+  </div>
+  <div class="field">
     <%= f.label :gender_id %><br>
-    <%= f.text_field :gender_id %>
+    <%= f.collection_select :gender_id, Gender.order('id'), :id, :name %>
   </div>
   <div class="actions">
     <%= f.submit %>

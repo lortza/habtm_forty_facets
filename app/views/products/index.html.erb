@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Products</h1>
-<p><%= link_to 'New Article', new_product_path %>  <%= link_to 'All Articles', products_path if params[:q] %></p>
+<p><%= link_to 'New Product', new_product_path %>  <%= link_to 'All Products', products_path if params[:q] %></p>
 <hr>
 
 <div class="container">
@@ -21,9 +21,10 @@
       <thead>
         <tr>
           <th>Name</th>
+          <th>Brand</th>
           <th>Gender</th>
           <th>Activities</th>
-          <th colspan="3"></th>
+          <th colspan="3">Actions</th>
         </tr>
       </thead>
 
@@ -31,6 +32,7 @@
         <% @products.each do |product| %>
           <tr>
             <td><%= product.name %></td>
+            <td><%= product.brand.name if product.brand %></td>
             <td><%= product.gender.name %></td>
             <td>
               <ul>
