@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  resources :variants
+
+  resources :sml_sizes
+
+  resources :brands
+
   root 'products#index'
   resources :products do
     collection { get :search }

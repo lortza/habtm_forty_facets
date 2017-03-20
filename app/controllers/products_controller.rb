@@ -3,11 +3,17 @@ class ProductsController < ApplicationController
 
   def index
     @products = Product.all
+    @genders = Gender.all
+    @brands = Brand.all
+    @sizes = SmlSize.all
   end
 
   # GET /products/search
   def search
     @products = Product.search(params[:q]).records
+    @genders = Gender.where(id: @products.pluck(:gender_id) )
+    @brands = Brand.where(id: @products.pluck(:brand_id) )
+    @sizes = SmlSize.all #where(id: @products.pluck(:sml_size) )
 
     render action: "index"
   end
@@ -47,8 +53,8 @@ class ProductsController < ApplicationController
   def update
     respond_to do |format|
       if @product.update(product_params)
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
-        format.json { render :show, status: :ok, location: @product }
+        format.html { redirect_to products_url, notice: 'Product was successfully updated.' }
+        format.json { render :show, status: :ok, location: products_url }
       else
         format.html { render :edit }
         format.json { render json: @product.errors, status: :unprocessable_entity }
@@ -74,6 +80,6 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:name, :gender_id)
+      params.require(:product).permit(:name, :brand_id, :gender_id)
     end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220212205) do
+ActiveRecord::Schema.define(version: 20170320181440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,12 @@ ActiveRecord::Schema.define(version: 20170220212205) do
   add_index "activities_products", ["activity_id"], name: "index_activities_products_on_activity_id", using: :btree
   add_index "activities_products", ["product_id"], name: "index_activities_products_on_product_id", using: :btree
 
+  create_table "brands", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "genders", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -43,11 +49,33 @@ ActiveRecord::Schema.define(version: 20170220212205) do
     t.integer  "gender_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "brand_id"
   end
 
+  add_index "products", ["brand_id"], name: "index_products_on_brand_id", using: :btree
   add_index "products", ["gender_id"], name: "index_products_on_gender_id", using: :btree
+
+  create_table "sml_sizes", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "variants", force: :cascade do |t|
+    t.integer  "product_id"
+    t.string   "color"
+    t.integer  "sml_size_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "variants", ["product_id"], name: "index_variants_on_product_id", using: :btree
+  add_index "variants", ["sml_size_id"], name: "index_variants_on_sml_size_id", using: :btree
 
   add_foreign_key "activities_products", "activities"
   add_foreign_key "activities_products", "products"
+  add_foreign_key "products", "brands"
   add_foreign_key "products", "genders"
+  add_foreign_key "variants", "products"
+  add_foreign_key "variants", "sml_sizes"
 end

@@ -7,12 +7,50 @@
 <div class="container">
   <div class="sidebar">
 
-    <h3>Filter By</h3>
+    <h2>Filters</h2>
+    <h3>Keyword Search</h3>
     <%= form_tag search_products_path, method: 'get' do %>
-      <%= label_tag :query %>
+      <%= label_tag :query, "" %>
       <%= text_field_tag :q, params[:q] %>
       <%= submit_tag :search %>
     <% end %>
+    <%= link_to 'Reset', products_path if params[:q] %>
+
+    <h3>Filter by Gender Facet</h3>
+    <ul>
+    <%# @products.facets['genders']['terms'].each do |facet| %>
+      <li>
+        <%#= link_to_unless_current Author.find(facet['term']).name, params.merge(gender_id: facet['term']) %>
+        <%# if params[:gender_id] == facet['term'].to_s %>
+        (<%#= link_to "remove", gender_id: nil %>)
+        <%# else %>
+        (<%#= facet['count'] %>)
+        <%# end %>
+      </li>
+      <%# end %>
+    </ul>
+
+    <h3>Genders</h3>
+    <ul>
+      <% @genders.each do |gender| %>
+      <li><%= gender.name %></li>
+      <% end %>
+    </ul>
+
+    <h3>Brands</h3>
+    <ul>
+      <% @brands.each do |brand| %>
+      <li><%= brand.name %></li>
+      <% end %>
+    </ul>
+
+    <h3>Size</h3>
+    <ul>
+      <% @sizes.each do |size| %>
+      <li><%= size.name %></li>
+      <% end %>
+    </ul>
+
   </div><!--sidebar -->
 
 
@@ -24,32 +62,41 @@
           <th>Brand</th>
           <th>Gender</th>
           <th>Activities</th>
-          <th colspan="3">Actions</th>
+          <th>Variant Info</th>
+          <th>Actions</th>
         </tr>
       </thead>
 
       <tbody>
         <% @products.each do |product| %>
-          <tr>
-            <td><%= product.name %></td>
-            <td><%= product.brand.name if product.brand %></td>
-            <td><%= product.gender.name %></td>
-            <td>
-              <ul>
-                <% product.activities.each do |activity| %>
-                  <li><%= activity.name %></li>
-                <% end %>
-              </ul>
-            </td>
-            <td><%= link_to 'Show', product %></td>
-            <td><%= link_to 'Edit', edit_product_path(product) %></td>
-            <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= product.brand.name if product.brand %></td>
+          <td><%= product.gender.name %></td>
+          <td>
+            <ul>
+              <% product.activities.each do |activity| %>
+              <li><%= activity.name %></li>
+              <% end %>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <% product.variants.each do |variant| %>
+              <li><%= variant.color %>, <%= variant.sml_size.name if variant.sml_size %></li>
+              <% end %>
+            </ul>
+          </td>
+          <td>
+            <%= link_to 'Show', product %></br>
+            <%= link_to 'Edit', edit_product_path(product) %></br>
+            <%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+          <% end %>
+        </tbody>
+      </table>
 
-  </div> <!-- main-content -->
+    </div> <!-- main-content -->
 
-</div><!-- container -->
+  </div><!-- container -->
 
