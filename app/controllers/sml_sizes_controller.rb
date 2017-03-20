@@ -1,0 +1,2 @@
+class SmlSizesController < ApplicationController
+end
