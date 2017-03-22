@@ -58,7 +58,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th>Name</th>
+          <th width ="150px";>Name</th>
           <th>Brand</th>
           <th>Gender</th>
           <th>Activities</th>
@@ -70,7 +70,10 @@
       <tbody>
         <% @products.each do |product| %>
         <tr>
-          <td><%= product.name %></td>
+          <td>
+            <strong><%= product.name %></strong>
+            <em style="font-size: 0.8em;"><%= product.description if product.description%></em>
+          </td>
           <td><%= product.brand.name if product.brand %></td>
           <td><%= product.gender.name %></td>
           <td>

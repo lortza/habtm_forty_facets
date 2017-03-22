@@ -23,6 +23,10 @@
     <%= f.label :gender_id %><br>
     <%= f.collection_select :gender_id, Gender.order('id'), :id, :name %>
   </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>
